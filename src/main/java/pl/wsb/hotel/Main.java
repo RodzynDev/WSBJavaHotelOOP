@@ -1,19 +1,25 @@
 package pl.wsb.hotel;
 
+import pl.wsb.hotel.domain.client.Client;
+import pl.wsb.hotel.domain.hotel.room.Room;
+import pl.wsb.hotel.domain.hotel.room.RoomReservation;
+import pl.wsb.hotel.domain.client.PremiumClient;
+import pl.wsb.hotel.domain.client.PremiumClientType;
+
 import java.time.LocalDate;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        Client firstClient = new Client("Client no. 1", "Dawid", "Tomas", LocalDate.of(1998, 6, 1));
-        Client secondClient = new Client("Client no. 2", "Albert", "Einstein", LocalDate.of(1879, 3, 14), "Wrocław");
-        Client thirdtClient = new Client("Client no. 3", "Mona", "Lisa", LocalDate.of(1503, 1, 1));
+        Client firstClient = new Client("Client no. 1", "Dawid", "Tomas", LocalDate.of(1998, 6, 1), "Wrocław");
+        Client secondClient = new PremiumClient("Client no. 2", "Albert", "Einstein", LocalDate.of(1879, 3, 14));
+        PremiumClient thirdClient = new PremiumClient("Client no. 3", "Mona", "Lisa", LocalDate.of(1503, 1, 1));
 
         Room firstRoom = new Room("Room no. 1", 10.00, 2, false, false);
         Room secondRoom = new Room("Room no. 2", 35.00, 4, false, true);
         Room thirdRoom = new Room("Room no. 3", 66.00, 7, true);
 
         RoomReservation firstReservation = new RoomReservation(firstClient, secondRoom, LocalDate.of(2024, 3, 20));
-        RoomReservation secondReservation = new RoomReservation(thirdtClient, firstRoom, LocalDate.of(2024, 4, 10));
+        RoomReservation secondReservation = new RoomReservation(thirdClient, firstRoom, LocalDate.of(2024, 4, 10));
         RoomReservation thirdReservation = new RoomReservation(secondClient, thirdRoom, LocalDate.of(2024, 5, 5));
 
         firstClient.setCity("Świdnica");
@@ -23,9 +29,13 @@ public class Main {
 
         secondClient.setPhoneNumber(123123123);
 
+        thirdClient.setPremiumAccountType(PremiumClientType.PREMIUM_PLUS);
+
         firstReservation.confirmReservation();
         secondReservation.confirmReservation();
         thirdReservation.setReservationDate(LocalDate.of(2024, 7, 11));
+
+        // TODO: Implement usage of Hotel class + other new things
 
         System.out.println("==================================");
         System.out.println("Information's about client no. 1:");
@@ -33,6 +43,9 @@ public class Main {
 
         System.out.println("Information's about client no. 2:");
         System.out.println(secondClient.getAllSummaries());
+
+        System.out.println("Information's about client no. 3:");
+        System.out.println(thirdClient.getAllSummaries());
 
         System.out.println("==================================");
         System.out.println("Information's about room no. 2 & no 3.:");

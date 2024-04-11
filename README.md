@@ -1,1 +1,1 @@
-cześć
+TODO: ... :D Later I'll add more information about the project.

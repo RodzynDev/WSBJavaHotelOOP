@@ -1,4 +1,6 @@
-package pl.wsb.hotel;
+package pl.wsb.hotel.domain.hotel.room;
+
+import pl.wsb.hotel.domain.client.Client;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

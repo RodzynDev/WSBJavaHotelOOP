@@ -1,4 +1,4 @@
-package pl.wsb.hotel;
+package pl.wsb.hotel.domain.hotel.room;
 
 public class Room {
     private final String id;
