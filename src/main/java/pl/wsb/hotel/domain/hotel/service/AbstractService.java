@@ -14,7 +14,7 @@ public abstract class AbstractService {
         this.isForPremiumClients = isForPremiumClients;
     }
 
-    abstract void orderService();
+    protected abstract void orderService();
 
     // TODO: Implement logic of checking service availability
     abstract void checkServiceAvailability(LocalDateTime orderTime);

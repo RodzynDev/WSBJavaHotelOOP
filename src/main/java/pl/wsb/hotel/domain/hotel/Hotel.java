@@ -75,4 +75,16 @@ public class Hotel {
 
         this.rooms.add(room);
     }
+
+    public void setClients(List<Client> clients) {
+        this.clients = clients;
+    }
+
+    public void setReservations(List<RoomReservation> reservations) {
+        this.reservations = reservations;
+    }
+
+    public void setRooms(List<Room> rooms) {
+        this.rooms = rooms;
+    }
 }

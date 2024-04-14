@@ -4,15 +4,16 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class TimeService extends AbstractService {
-    protected TimeService(String name) {
+
+    public TimeService() {
         super("Time service", false);
     }
 
     @Override
-    void orderService() {
+    public void orderService() {
         DateTimeFormatter formatterDateTime = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         LocalDateTime currentTime = LocalDateTime.now();
-        System.out.println(formatterDateTime.format(currentTime));
+        System.out.println("The time service is ordered for " + formatterDateTime.format(currentTime));
     }
 
     @Override
