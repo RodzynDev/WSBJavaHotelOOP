@@ -10,12 +10,13 @@ import pl.wsb.hotel.domain.hotel.service.LuggageService;
 import pl.wsb.hotel.domain.hotel.service.TimeService;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        Hotel hotel = new Hotel("⭐⭐⭐⭐⭐ Hotel Rodzyn ⭐⭐⭐⭐⭐");
+        Hotel hotel = new Hotel("⭐⭐⭐⭐⭐ Hotel Rodzynek ^^ ⭐⭐⭐⭐⭐");
 
         Client firstClient = new Client("Client no. 1", "Dawid", "Tomas", LocalDate.of(1998, 6, 1), "Wrocław");
         Client secondClient = new PremiumClient("Client no. 2", "Albert", "Einstein", LocalDate.of(1879, 3, 14));
@@ -69,7 +70,7 @@ public class Main {
 
 
         System.out.println("\n" + hotel.getName() + "\n");
-
+        LocalDateTime now = LocalDateTime.now();
         // implementation of a simple Client list
         for (int i = 0; i < clients.size(); i++) {
             System.out.println("==================================");
@@ -77,7 +78,9 @@ public class Main {
             System.out.print(hotel.getClients().get(i).getAllSummaries());
 
             if (i==1)
+
                 luggageService.orderService();
+                luggageService.checkServiceAvailability(now);
             if (i==2)
                 timeService.orderService();
         }
@@ -91,5 +94,8 @@ public class Main {
         System.out.println("Information's about reservations no. 1 & no 3.:\n");
         System.out.println(hotel.getReservations().get(0).getReservationInformation());
         System.out.println(hotel.getReservations().get(2).getReservationInformation());
+        //wywołanie medoty abstrakcyjnej nadpisanej w klasie dziedziczonej - pkt z gwiazda
+        timeService.getfullinfoinpl();
+
     }
 }
