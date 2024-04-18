@@ -1,4 +1,4 @@
-package pl.wsb.hotel;
+package pl.wsb.hotel.domain.client;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -56,9 +56,9 @@ public class Client {
         this.phoneNumber = phoneNumber;
     }
 
-    public int getAge() {
+    public int getAge() throws Exception {
         if(this.birthDate == null) {
-            return 0;
+            throw new Exception("Birth date is not set for client");
         }
 
         LocalDate currentDate = LocalDate.now();
@@ -66,7 +66,7 @@ public class Client {
         if ((this.birthDate.isBefore(currentDate))) {
             return Period.between(this.birthDate, currentDate).getYears();
         } else {
-            return 0;
+            throw new Exception("Cannot calculate age for future birth date");
         }
     }
 
@@ -80,7 +80,7 @@ public class Client {
             Optional.ofNullable(this.zipCode).orElse("---");
     }
 
-    public String getAllSummaries() {
+    public String getAllSummaries() throws Exception {
         return
             "Name & surname: " + this.getFullName() + " \n" +
             "Address: " + this.getAddress() + " \n" +
