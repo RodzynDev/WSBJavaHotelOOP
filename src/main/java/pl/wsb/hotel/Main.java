@@ -42,7 +42,7 @@ public class Main {
         secondReservation.confirmReservation();
         thirdReservation.setReservationDate(LocalDate.of(2024, 7, 11));
 
-        // TODO: Implement usage of Hotel class + other new things
+        // LeftToDo Implement usage of Hotel class + other new things
 
         List<Client> clients = new ArrayList<>();
         List<RoomReservation> roomReservations = new ArrayList<>();

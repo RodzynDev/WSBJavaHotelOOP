@@ -36,6 +36,10 @@ public class Client {
         this.phoneNumber = null;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public void setStreet(String street) {
         this.street = street;
     }
