@@ -24,7 +24,7 @@ public class Main {
 
         Room firstRoom = new Room("Room no. 1", 10.00, 2, false, false);
         Room secondRoom = new Room("Room no. 2", 35.00, 4, false, true);
-        Room thirdRoom = new Room("Room no. 3", 66.00, 7, true);
+        Room thirdRoom = new Room("Room no. 3", 66.00, 7, true,"ale bydle");
 
         RoomReservation firstReservation = new RoomReservation(firstClient, secondRoom, LocalDate.of(2024, 3, 20));
         RoomReservation secondReservation = new RoomReservation(thirdClient, firstRoom, LocalDate.of(2024, 4, 10));
