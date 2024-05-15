@@ -1,0 +1,10 @@
+Zad 3.1 - W pełni gotowe
+Zad 3.2 ->
+- Dodanie interface'u do klasy Hotel -> Gotowe
+- Dodano pozostałe klasy do projektu (chyba gotowe, nie wiadomo o jakie klasy chodzi -> może o exception?)
+- Nie zmodyfikowano interface'u HoteCapatity -> Gotowe, nie grzebcie tam nic już więcej :D
+- Implementacja metod w klasie Hotel (WIP):
+    - Metody dla klienta: WIP
+    - Metody dla pokoi: Do zrobienia
+    - Metody dla rezerwacji: Do zrobienia
+Zad 3.3 - Nietknięte

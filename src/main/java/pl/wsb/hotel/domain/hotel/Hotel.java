@@ -5,10 +5,11 @@ import pl.wsb.hotel.domain.hotel.room.Room;
 import pl.wsb.hotel.domain.hotel.room.RoomReservation;
 import pl.wsb.hotel.domain.hotel.service.AbstractService;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Hotel {
+public class Hotel implements HotelCapability{
     private final String name;
     private List<AbstractService> specialServices;
     private List<Client> clients;
@@ -44,12 +45,24 @@ public class Hotel {
         return clients;
     }
 
-    public void addClient(Client client) {
+    public String getClientFullName(String clientId) {
+        return this.clients.stream()
+            .filter(client -> client.getId().equals(clientId))
+            .map(client -> String.format("%s", client.getFullName()))
+            .findFirst()
+            .orElse(null);
+    }
+
+    public String addClient(String firstName, String lastName, LocalDate birthDate) {
         if(this.clients == null) {
             this.clients = new ArrayList<>();
         }
 
+        String generatedClientId = String.valueOf(this.clients.size() + 1);
+        Client client = new Client(generatedClientId, firstName, lastName, birthDate);
+
         this.clients.add(client);
+        return client.getId();
     }
 
     public List<RoomReservation> getReservations() {
