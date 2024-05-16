@@ -20,4 +20,9 @@ public class TimeService extends AbstractService {
     void checkServiceAvailability(LocalDateTime orderTime) {
         System.out.println("Time service is always available.");
     }
+
+    @Override
+    public void getfullinfoinpl() {
+        System.out.println("ta klasa odpowiada za pokazywanie czasu");
+    }
 }

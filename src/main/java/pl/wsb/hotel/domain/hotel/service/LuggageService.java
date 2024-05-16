@@ -17,10 +17,17 @@ public class LuggageService extends AbstractService {
     }
 
     @Override
-    void checkServiceAvailability(LocalDateTime orderTime) {
+    public void checkServiceAvailability(LocalDateTime orderTime) {
         if (!isForPremiumClients())
             System.out.println("We are sorry. You are not a premium client.");
         else
             System.out.println("Szymon Ciepliński coś wymyśli hehehe");
+            System.out.println(".... Masz racje wymyśliłem");
+            String s="";
+        for(int i=0; i<10; i++) {
+            s += "*";
+            System.out.println(s);
+        }
+        System.out.println("Dear premium client this tree is for you");
     }
 }

@@ -2,14 +2,33 @@ package pl.wsb.hotel.domain.hotel.room;
 
 public class Room {
     private final String id;
+
+    public double getArea() {
+        return area;
+    }
+
     private final double area;
     private final int floor;
+
+    public boolean isHasKingSizeBed() {
+        return hasKingSizeBed;
+    }
+
     private final boolean hasKingSizeBed;
     private boolean hasFridge;
     private boolean hasBalcony;
     private boolean hasCoffeeMachine;
+    private String description;
 
-    public Room(String id, double area, int floor, boolean hasKingSizeBed) {
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Room(String id, double area, int floor, boolean hasKingSizeBed, String description) {
         this.id = id;
         this.area = area;
         this.floor = floor;
@@ -17,6 +36,8 @@ public class Room {
         this.hasFridge = true;
         this.hasBalcony = false;
         this.hasCoffeeMachine = false;
+        this.description= description;
+
     }
 
     public Room(String id, double area, int floor, boolean hasKingSizeBed, boolean hasBalcony) {
