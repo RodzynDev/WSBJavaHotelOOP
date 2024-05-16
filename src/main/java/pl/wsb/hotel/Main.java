@@ -65,6 +65,8 @@ public class Main {
         hotel.setReservations(roomReservations);
         hotel.setRooms(rooms);
 
+        hotel.addNewReservation(clients.get(0).getId(), rooms.get(0).getId(), LocalDate.of(2024, 6, 6));
+
         TimeService timeService = new TimeService();
         LuggageService luggageService = new LuggageService();
 
@@ -76,9 +78,7 @@ public class Main {
             System.out.println("==================================");
             System.out.println("Information about client no. :" + i+1);
             System.out.print(hotel.getClients().get(i).getAllSummaries());
-
             if (i==1)
-
                 luggageService.orderService();
                 luggageService.checkServiceAvailability(now);
             if (i==2)
@@ -95,7 +95,7 @@ public class Main {
         System.out.println(hotel.getReservations().get(0).getReservationInformation());
         System.out.println(hotel.getReservations().get(2).getReservationInformation());
         //wywołanie medoty abstrakcyjnej nadpisanej w klasie dziedziczonej - pkt z gwiazda
-        timeService.getfullinfoinpl();
+        timeService.getFullInfoInPL();
 
     }
 }

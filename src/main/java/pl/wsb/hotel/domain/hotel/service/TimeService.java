@@ -22,7 +22,7 @@ public class TimeService extends AbstractService {
     }
 
     @Override
-    public void getfullinfoinpl() {
+    public void getFullInfoInPL() {
         System.out.println("ta klasa odpowiada za pokazywanie czasu");
     }
 }

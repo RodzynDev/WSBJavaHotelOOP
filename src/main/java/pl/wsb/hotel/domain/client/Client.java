@@ -60,6 +60,8 @@ public class Client {
         this.phoneNumber = phoneNumber;
     }
 
+    public LocalDate getBirthDate() { return birthDate; }
+
     public int getAge() throws Exception {
         if(this.birthDate == null) {
             throw new Exception("Birth date is not set for client");

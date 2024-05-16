@@ -54,6 +54,8 @@ public class Room {
         return id;
     }
 
+    public int getFloor() { return floor; }
+
     public void setHasFridge(boolean hasFridge) {
         this.hasFridge = hasFridge;
     }

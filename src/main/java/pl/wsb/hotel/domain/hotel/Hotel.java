@@ -8,15 +8,15 @@ import pl.wsb.hotel.domain.hotel.room.exception.ReservationNotFoundException;
 import pl.wsb.hotel.domain.hotel.room.exception.RoomNotFoundException;
 import pl.wsb.hotel.domain.hotel.room.exception.RoomReservedException;
 import pl.wsb.hotel.domain.hotel.service.AbstractService;
-import pl.wsb.hotel.domain.hotel.HotelCapability;
+
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-public class Hotel implements HotelCapability{
+public class Hotel implements HotelCapability {
     private final String name;
     private List<AbstractService> specialServices;
     private List<Client> clients;
@@ -41,7 +41,7 @@ public class Hotel implements HotelCapability{
     }
 
     public void addSpecialService(AbstractService service) {
-        if(this.specialServices == null) {
+        if (this.specialServices == null) {
             this.specialServices = new ArrayList<>();
         }
 
@@ -54,32 +54,28 @@ public class Hotel implements HotelCapability{
 
     public String getClientFullName(String clientId) {
         return this.clients.stream()
-            .filter(client -> client.getId().equals(clientId))
-            .map(client -> String.format("%s", client.getFullName()))
-            .findFirst()
-            .orElse(null);
+                .filter(client -> client.getId().equals(clientId))
+                .map(client -> String.format("%s", client.getFullName()))
+                .findFirst()
+                .orElse(null);
     }
 
     @Override
     public int getNumberOfUnderageClients() {
-       List<Client> temp= new ArrayList<Client>();
-        for( int i=0;i<=clients.size();i++){
-            try {
-                if(clients.get(i).getAge()<18)temp.add(clients.get(i));
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return temp.size();
+        LocalDate today = LocalDate.now();
+        return (int) this.clients.stream()
+                .filter(client -> Period.between(client.getBirthDate(), today).getYears() < 18)
+                .count();
     }
 
     @Override
     public String addRoom(double area, int floor, boolean hasKingSizeBed, String description) {
-        if(this.rooms == null) {
+        if (this.rooms == null) {
             this.rooms = new ArrayList<>();
         }
-        String generatedRoomtId = String.valueOf(this.rooms.size() + 1);
-        Room room= new Room(generatedRoomtId,area,floor,hasKingSizeBed,description);
+
+        String generatedRoomId = String.valueOf(this.rooms.size() + 1);
+        Room room = new Room(generatedRoomId, area, floor, hasKingSizeBed, description);
         this.rooms.add(room);
 
         return room.getId();
@@ -87,80 +83,97 @@ public class Hotel implements HotelCapability{
 
     @Override
     public double getRoomArea(String roomId) {
-        double size = 0;
-        for( int i=0;i<=rooms.size();i++){
-            try {
-                if(rooms.get(i).isHasKingSizeBed()==true)
-                    {
-                    size=rooms.get(i).getArea();
-                    break;
-                    }
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return size;
+        return this.rooms.stream()
+                .filter(room -> room.getId().equals(roomId))
+                .map(Room::getArea)
+                .findFirst()
+                .orElse(0.0);
     }
 
     @Override
     public int getNumberOfRoomsWithKingSizeBed(int floor) {
-        List<Room> temp= new ArrayList<Room>();
-        for( int i=0;i<=rooms.size();i++){
-            try {
-                if(rooms.get(i).isHasKingSizeBed()==true)temp.add(rooms.get(i));
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return temp.size();
+        return (int) this.rooms.stream()
+                .filter(room -> room.getFloor() == floor && room.isHasKingSizeBed())
+                .count();
     }
 
     @Override
     public String addNewReservation(String clientId, String roomId, LocalDate date) throws ClientNotFoundException, RoomNotFoundException, RoomReservedException {
+        if (this.clients.stream().noneMatch(client -> client.getId().equals(clientId))) {
+            throw new ClientNotFoundException("Client not found");
+        }
 
-        return null;
+        if (this.rooms.stream().noneMatch(room -> room.getId().equals(roomId))) {
+            throw new RoomNotFoundException("Room not found");
+        }
+
+        if (this.reservations.stream().anyMatch(reservation -> reservation.getRoom().getId().equals(roomId) && reservation.getReservationDate().equals(date))) {
+            throw new RoomReservedException("Room is already reserved", date);
+        }
+
+        Room room = this.rooms.stream()
+                .filter(r -> r.getId().equals(roomId))
+                .findFirst()
+                .orElse(null);
+
+        Client client = this.clients.stream()
+                .filter(c -> c.getId().equals(clientId))
+                .findFirst()
+                .orElse(null);
+
+        RoomReservation reservation = new RoomReservation(String.valueOf(this.reservations.size() + 1), client, room, date);
+        this.reservations.add(reservation);
+
+        return reservation.getId();
     }
 
     @Override
     public String confirmReservation(String reservationId) throws ReservationNotFoundException {
-        return null;
+        RoomReservation reservation = this.reservations.stream()
+                .filter(r -> r.getId().equals(reservationId))
+                .findFirst()
+                .orElse(null);
+
+        if (Objects.isNull(reservation)) {
+            throw new ReservationNotFoundException("Reservation not found");
+        }
+
+        reservation.confirmReservation();
+
+        return reservation.getId();
     }
 
     @Override
     public boolean isRoomReserved(String roomId, LocalDate date) throws RoomNotFoundException {
+        if (this.rooms.stream().noneMatch(room -> room.getId().equals(roomId))) {
+            throw new RoomNotFoundException("Room not found");
+        }
 
-        return false;
+        return this.reservations.stream()
+                .anyMatch(reservation -> reservation.getRoom().getId().equals(roomId) && reservation.getReservationDate().equals(date));
     }
 
     @Override
     public int getNumberOfUnconfirmedReservation(LocalDate date) {
-        LocalDate dzis = LocalDate.now();
-        List<RoomReservation> temp= new ArrayList<RoomReservation>();
-        for( int i=0;i<=reservations.size();i++){
-            try {
-                if(reservations.get(i).getReservationDate()==dzis)temp.add(reservations.get(i));
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return temp.size();
+        return (int) this.reservations.stream()
+                .filter(reservation -> reservation.getReservationDate().equals(date) && !reservation.isConfirmed())
+                .count();
     }
 
     @Override
     public Collection<String> getRoomIdsReservedByClient(String clientId) throws ClientNotFoundException {
-        List<String> temp= new ArrayList<String>();
-        for( int i=0;i<=reservations.size();i++){
-            try {
-                if(reservations.get(i).isConfirmed()==true&&reservations.get(i).getGuest().getId()==clientId)temp.add(reservations.get(i).getId());
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+        if (this.clients.stream().noneMatch(client -> client.getId().equals(clientId))) {
+            throw new ClientNotFoundException("Client not found");
         }
-        return temp;
+
+        return this.reservations.stream()
+                .filter(reservation -> reservation.getGuest().getId().equals(clientId))
+                .map(reservation -> reservation.getRoom().getId())
+                .toList();
     }
 
     public String addClient(String firstName, String lastName, LocalDate birthDate) {
-        if(this.clients == null) {
+        if (this.clients == null) {
             this.clients = new ArrayList<>();
         }
 
@@ -177,7 +190,7 @@ public class Hotel implements HotelCapability{
     }
 
     public void addReservation(RoomReservation reservation) {
-        if(this.reservations == null) {
+        if (this.reservations == null) {
             this.reservations = new ArrayList<>();
         }
 
@@ -189,7 +202,7 @@ public class Hotel implements HotelCapability{
     }
 
     public void addRoom(Room room) {
-        if(this.rooms == null) {
+        if (this.rooms == null) {
             this.rooms = new ArrayList<>();
         }
 
@@ -207,5 +220,4 @@ public class Hotel implements HotelCapability{
     public void setRooms(List<Room> rooms) {
         this.rooms = rooms;
     }
-
 }

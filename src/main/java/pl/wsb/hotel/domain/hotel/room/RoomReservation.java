@@ -22,6 +22,15 @@ public class RoomReservation {
     }
 
     private String id;
+
+    public RoomReservation(String id, Client guest, Room room, LocalDate reservationDate) {
+        this.id = id;
+        this.guest = guest;
+        this.room = room;
+        this.reservationDate = reservationDate;
+        this.isConfirmed = false;
+    }
+
     public RoomReservation(Client guest, Room room, LocalDate reservationDate) {
         this.id = null;
         this.guest = guest;
@@ -50,9 +59,9 @@ public class RoomReservation {
         return isConfirmed;
     }
 
-    public void confirmReservation() throws Exception {
+    public void confirmReservation() {
         if(this.isConfirmed) {
-            throw new Exception("Reservation is already confirmed");
+            throw new RuntimeException("Reservation is already confirmed");
         }
 
         this.isConfirmed = true;

@@ -34,7 +34,7 @@ public abstract class AbstractService {
     public boolean isForPremiumClients() {
         return this.isForPremiumClients;
     }
-    protected void getfullinfoinpl(){
+    protected void getFullInfoInPL(){
         System.out.println("Nazwa usługi "+this.name+" jest wykonywana dla klienta premium "+this.isForPremiumClients);
     }
 }
