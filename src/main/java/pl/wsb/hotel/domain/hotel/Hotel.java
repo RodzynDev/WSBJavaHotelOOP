@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 public class Hotel implements HotelCapability{
     private final String name;
@@ -60,20 +61,15 @@ public class Hotel implements HotelCapability{
 
     @Override
     public int getNumberOfUnderageClients() {
-        try {
-            return this.clients.stream()
-                    .filter(client -> {
-                        try {
-                            return client.getAge()<18;
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
-                    })
-                    .findFirst()
-                    .orElse(null).getAge();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+       List<Client> temp= new ArrayList<Client>();
+        for( int i=0;i<=clients.size();i++){
+            try {
+                if(clients.get(i).getAge()<18)temp.add(clients.get(i));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
+        return temp.size();
     }
 
     @Override
@@ -81,7 +77,6 @@ public class Hotel implements HotelCapability{
         if(this.rooms == null) {
             this.rooms = new ArrayList<>();
         }
-
         String generatedRoomtId = String.valueOf(this.rooms.size() + 1);
         Room room= new Room(generatedRoomtId,area,floor,hasKingSizeBed,description);
         this.rooms.add(room);
@@ -91,16 +86,32 @@ public class Hotel implements HotelCapability{
 
     @Override
     public double getRoomArea(String roomId) {
-        return Double.parseDouble(this.rooms.stream()
-                .filter(room -> room.getId().equals(roomId))
-                .map(room -> String.format("%d", room.getArea()))
-                .findFirst()
-                .orElse(null));
+        double size = 0;
+        for( int i=0;i<=rooms.size();i++){
+            try {
+                if(rooms.get(i).isHasKingSizeBed()==true)
+                    {
+                    size=rooms.get(i).getArea();
+                    break;
+                    }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return size;
     }
 
     @Override
     public int getNumberOfRoomsWithKingSizeBed(int floor) {
-        return 0;
+        List<Room> temp= new ArrayList<Room>();
+        for( int i=0;i<=rooms.size();i++){
+            try {
+                if(rooms.get(i).isHasKingSizeBed()==true)temp.add(rooms.get(i));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return temp.size();
     }
 
     @Override
@@ -115,6 +126,7 @@ public class Hotel implements HotelCapability{
 
     @Override
     public boolean isRoomReserved(String roomId, LocalDate date) throws RoomNotFoundException {
+
         return false;
     }
 

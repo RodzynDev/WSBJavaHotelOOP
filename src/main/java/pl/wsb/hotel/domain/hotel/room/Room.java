@@ -9,6 +9,11 @@ public class Room {
 
     private final double area;
     private final int floor;
+
+    public boolean isHasKingSizeBed() {
+        return hasKingSizeBed;
+    }
+
     private final boolean hasKingSizeBed;
     private boolean hasFridge;
     private boolean hasBalcony;
