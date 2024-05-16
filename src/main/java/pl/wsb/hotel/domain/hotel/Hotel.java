@@ -10,6 +10,7 @@ import pl.wsb.hotel.domain.hotel.room.exception.RoomReservedException;
 import pl.wsb.hotel.domain.hotel.service.AbstractService;
 import pl.wsb.hotel.domain.hotel.HotelCapability;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -116,6 +117,7 @@ public class Hotel implements HotelCapability{
 
     @Override
     public String addNewReservation(String clientId, String roomId, LocalDate date) throws ClientNotFoundException, RoomNotFoundException, RoomReservedException {
+
         return null;
     }
 
@@ -132,12 +134,29 @@ public class Hotel implements HotelCapability{
 
     @Override
     public int getNumberOfUnconfirmedReservation(LocalDate date) {
-        return 0;
+        LocalDate dzis = LocalDate.now();
+        List<RoomReservation> temp= new ArrayList<RoomReservation>();
+        for( int i=0;i<=reservations.size();i++){
+            try {
+                if(reservations.get(i).getReservationDate()==dzis)temp.add(reservations.get(i));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return temp.size();
     }
 
     @Override
     public Collection<String> getRoomIdsReservedByClient(String clientId) throws ClientNotFoundException {
-        return null;
+        List<String> temp= new ArrayList<String>();
+        for( int i=0;i<=reservations.size();i++){
+            try {
+                if(reservations.get(i).isConfirmed()==true&&reservations.get(i).getGuest().getId()==clientId)temp.add(reservations.get(i).getId());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return temp;
     }
 
     public String addClient(String firstName, String lastName, LocalDate birthDate) {

@@ -20,7 +20,6 @@ public class Room {
     private boolean hasCoffeeMachine;
     private String description;
 
-
     public String getDescription() {
         return description;
     }
@@ -38,6 +37,7 @@ public class Room {
         this.hasBalcony = false;
         this.hasCoffeeMachine = false;
         this.description= description;
+
     }
 
     public Room(String id, double area, int floor, boolean hasKingSizeBed, boolean hasBalcony) {

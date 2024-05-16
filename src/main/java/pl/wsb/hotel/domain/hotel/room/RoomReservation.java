@@ -4,6 +4,7 @@ import pl.wsb.hotel.domain.client.Client;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Random;
 
 public class RoomReservation {
 
@@ -12,7 +13,17 @@ public class RoomReservation {
     private LocalDate reservationDate;
     private boolean isConfirmed;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    private String id;
     public RoomReservation(Client guest, Room room, LocalDate reservationDate) {
+        this.id = null;
         this.guest = guest;
         this.room = room;
         this.reservationDate = reservationDate;
